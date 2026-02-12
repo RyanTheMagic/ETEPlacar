@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{{ url_for('static', filename='css/logo.jpeg') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/menu.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/calendario.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/card.css') }}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&display=swap" />
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css">
+    <script src="{{ url_for('static', filename='js/menu.js') }}" defer></script>
+    <title>ETEPlacar - Home</title>
+</head>
+<body>
+    <header>
+      <a href="/static/css/logo.jpeg"></a>
+      <div class="barraSuperior">
+        <button class="menu-btn" id="menuToggle" aria-label="Abrir menu">☰</button>
+        <strong class="nomeEmCima">Calendário</strong>
+        <span></span>
+      </div>
+    
+      <!-- barraLateral-->
+      <aside class="barraLateral" id="barraLateral">
+        <div class="marca">
+          </svg>
+          </span>
+          <div class="marca">
+            <span class="logo" aria-hidden="true">
+              <!-- ícone -->
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                <path
+                  d="M12 12c2.7 0 5-2.3 5-5s-2.3-5-5-5-5 2.3-5 5 2.3 5 5 5zm0 2c-3.3 0-10 1.7-10 5v3h20v-3c0-3.3-6.7-5-10-5z" />
+              </svg>
+            </span>
+          
+            {% if 'nome' not in session%}
+              <a href="/login" class="login-link">Login</a>
+            {% else %}
+            <div class="usuario-info">
+              <span class="login-link">Olá, {{session['nome']}}</span>
+            </div>
+            {% endif %}
+          </div>
+        
+        </div>
+      
+        <nav>
+        
+          <a class="nav-link {% if request.path == '/calendario/{{ano}}/{{mes}}/{{dia_selecionado}}' %}active{% endif %}" href="/calendario/{{ano}}/{{mes}}/{{dia_selecionado}}">
+            <span class="nav-icon" aria-hidden="true"></span>
+            Calendário
+          </a>
+        
+          {% if session['nivel'] == 'AlunoMonitor' or session['nivel'] == 'Administrador'%}
+          <a href="javascript:void(0)" class="nav-link submenu-toggle">
+            <span class="nav-icon" aria-hidden="true"></span>
+            Gerenciamento ▾
+          </a>
+          {%endif%}
+          <div class="submenu">
+            {%if session['nivel'] == 'Administrador'%}
+            <a class="nav-link {% if request.path == '/turma' %}active{% endif %}" href="/turma">
+              Turmas
+            </a>
+            {%endif%}
+            {% if session['nivel'] == 'AlunoMonitor' or session['nivel'] == 'Administrador'%}
+            <a class="nav-link {% if request.path == '/cadastrarAluno' %}active{% endif %}" href="/cadastrarAluno">
+              Alunos
+            </a>
+            <a class="nav-link {% if request.path == '/cadastrarEquipe' %}active{% endif %}" href="/cadastrarEquipe">
+              Equipes
+            </a>
+            {%endif%}
+            {%if session['nivel'] == 'Administrador'%}
+            <a class="nav-link {% if request.path == '/gerenciarModalidades/{{ano}}/{{mes}}/{{dia_selecionado}}' %}active{% endif %}" href="/gerenciarModalidades/{{ano}}/{{mes}}/{{dia_selecionado}}">
+              Modalidades
+            </a>
+            <a class="nav-link {% if request.path == '/gerenciarEstatisticas/{{ano}}/{{mes}}/{{dia_selecionado}}' %}active{% endif %}" href="/gerenciarEstatisticas/{{ano}}/{{mes}}/{{dia_selecionado}}">
+              Estatísticas
+            </a>
+            <a class="nav-link {% if request.path == '/cadastrarUsuario' %}active{% endif %}" href="/cadastrarUsuario">
+              Usuarios
+            </a>
+            {%endif%}
+          </div>
+          {%if session['nivel'] != 'Administrador' and session['nivel'] != 'AlunoMonitor'%}
+          <a class="nav-link {% if request.path == '/turma' %}active{% endif %}" href="/turma">
+            <span class="nav-icon" aria-hidden="true"></span>
+            Turmas
+          <a class="nav-link {% if request.path == '/cadastrarEquipe' %}active{% endif %}" href="/cadastrarEquipe">
+            <span class="nav-icon" aria-hidden="true"></span>
+            Equipes
+          </a>
+          {%endif%}
+        
+        </nav>
+      
+        <div class="footer">
+          {% if session['nivel'] == 'AlunoMonitor' or session['nivel'] == 'Administrador'%}
+          <a href="/logout" class="logout-link">Sair</a>
+          {%endif%}
+          <div class="muted">ETE Ministro Fernando Lyra 2025</div>
+        </div>
+      
+      </aside>
+    </header>
+    <div class="caixapapai">
+    <div class="calendario-container">
+      <div class="calendario-wrapper">
+        <div class="header">
+            {% if mes == 1 %}
+                <button><a href="/calendario/{{ ano-1 }}/12">◀</a></button>
+            {% else %}
+                <button><a href="/calendario/{{ ano }}/{{ mes-1 }}">◀</a></button>
+            {% endif %}
+            
+            <h1>{{ nomeMes }} de {{ ano }}</h1>
+            <br>
+            <input type="month" id="mesPicker" value="{{ ano }}-{{ '%02d' % mes }}">
+
+            {% if mes == 12 %}
+                <button><a href="/calendario/{{ ano+1 }}/1">▶</a></button>
+            {% else %}
+                <button><a href="/calendario/{{ ano }}/{{ mes+1 }}">▶</a></button>
+            {% endif %}
+        </div>
+
+        <div class="dias-semana">
+            <div>Dom</div> <div>Seg</div> <div>Ter</div> <div>Qua</div> <div>Qui</div> <div>Sex</div> <div>Sáb</div>
+        </div>
+        <div class="dias-mes">
+          {% for semana in semanas %}
+              {% for dia in semana %}
+                  {%set numeroDia = dia.day%}
+                  {%set classes = ['dia']%}
+                  {%if dia.month != mes %} 
+                    {%set _ = classes.append('outro-mes')%}
+                    {%set href_link = ''%}
+                  {%else%}
+                    {%set href_link = '/calendario/' ~ ano ~ '/' ~ mes ~ '/' ~ numeroDia %}
+                  {%endif%}
+                  {%if numeroDia in eventosDoDia and dia.month == mes%}
+                    {% set _ = classes.append('com-evento') %}
+                  {%endif%}
+                  {%if dia.month == mes and dia.day == dia_selecionado %}
+                    {% set _ = classes.append('selecionado')%}
+                  {%endif%}
+
+                  <a class="{{ classes|join(' ') }}" href="{{ href_link }}" {% if href_link == '' %}onclick="event.preventDefault(); return false;"{% endif %}>
+                      <span>{{ numeroDia }}</span>
+                  </a>
+              {% endfor %}
+          {% endfor %}
+        </div>
+    </div>
+    <div class="Filtros">
+      <form method="POST" action="/calendarioFiltrado/{{ano}}/{{mes}}/{{dia_selecionado}}">
+        <label>Modalidade: </label>
+        <select name="modalidade">
+          <option value="">Todas</option>
+          {%for modalidade in modalidades%}
+            <option value="{{modalidade['pk_esporte']}}" {%if filtroModalidade == modalidade['pk_esporte']%}selected{%endif%}>{{modalidade['pk_esporte']}}</option>
+          {%endfor%}
+        </select><br>
+        <label>Gênero: </label>
+        <select name="descricao">
+          <option value="">Todos</option>
+          <option value="Masculino" {%if filtroDescricao == 'Masculino'%}selected{%endif%}>Masculino</option>
+          <option value="Feminino" {%if filtroDescricao == 'Feminino'%}selected{%endif%}>Feminino</option>
+          <option value="Misto" {%if filtroDescricao == 'Misto'%}selected{%endif%}>Misto</option>
+        </select><br>
+        <label>Turmas: </label>
+        <select name="turma">
+          <option value="">Todas</option>
+          {%for turma in turmas%}
+            <option value="{{turma['pk_nome_turma']}}" {%if filtroTurmas == turma['pk_nome_turma']%}selected{%endif%}>{{turma['pk_nome_turma']}}</option>
+          {%endfor%}
+        </select><br>
+        <button type="submit">Filtrar</button>
+      </form>
+      </div>
+      <div class="caixa">
+        {% if ptr %}
+            {% for partida in ptr %}
+            <div class="partidas">
+              <a href="/detalhes/{{partida['pk_partida']}}/{{ano}}/{{mes}}/{{dia_selecionado}}">
+                  <h1>{{partida['fk_esporte']}} {{partida['fk_descricao']}}</h1>
+              </a>
+              
+              <div class="caixaimg">
+              {% for turma in turmas %}
+                {% if partida['fk_turma_casa'] == turma['pk_nome_turma'] %}
+                  <img src="{{turma['icone_url']}}"/>
+                {% endif %}
+              {% endfor %}
+                  <label class="pontos_turma_partidas">{{partida['pontos_turma_casa']}} - {{partida['pontos_turma_visitante']}}</label>
+              {% for turma in turmas %}
+                {% if partida['fk_turma_visitante'] == turma['pk_nome_turma'] %}
+                  <img src="{{turma['icone_url']}}"/>
+                {% endif %}
+              {% endfor %}
+              </div>
+              <br>
+              {%if partida['grupo'] == "Individual"%}
+                {% for estatprincipal in estatisticasPrincipal %}
+                      {% if partida['fk_esporte'] == estatprincipal['fk_esporte'] and (estatprincipal['fk_nome_estatistica'] == 'Sets')%}
+                          <h1 class="estatPrincipal">{{estatprincipal['fk_nome_estatistica']}}</h1>
+                      {% endif %}
+                {% endfor %}
+
+                {%for membro in membrosEquipes%}
+                  {%if partida['fk_equipe_casa'] == membro['fk_equipe']%}
+                    <label class="nomeAlunos">{{membro['nome_aluno']}}</label>
+                  {%endif%}
+                {%endfor%}
+
+
+                {%for membro in membrosEquipes%}
+                  {%if partida['fk_equipe_visitante'] == membro['fk_equipe']%}
+                    <label class="nomeAlunos">x {{membro['nome_aluno']}}</label>
+                  {%endif%}
+                {%endfor%}
+              {%else%}
+                  {% for estatprincipal in estatisticasPrincipal %}
+                      {% if partida['fk_esporte'] == estatprincipal['fk_esporte'] and (estatprincipal['fk_nome_estatistica'] == 'Gols' or estatprincipal['fk_nome_estatistica'] == 'Pontos' or estatprincipal['fk_nome_estatistica'] == 'Eliminações')%}
+                          <h1 class="estatPrincipal">{{estatprincipal['fk_nome_estatistica']}}</h1>
+                      {% endif %}
+                  {% endfor %}
+
+                <label class="nomeAlunos">{{partida['fk_turma_casa']}} - Equipe {{partida['nome_equipe_casa']}}</label>
+
+                <label class="nomeAlunos">x Equipe {{partida['nome_equipe_visitante']}} - {{partida['fk_turma_visitante']}}</label>
+
+              {%endif%}
+              {% if (session['nivel'] == 'Administrador' or session['nivel'] == 'AlunoMonitor') and (partida['fk_turma_casa'] != partida['fk_turma_visitante'])%}
+              <div class="addEstatisticas">
+                <br>
+                  <a id="turma" href="/adicionarEstatisticasCasa/{{partida['pk_partida']}}/{{ano}}/{{mes}}/{{dia_selecionado}}">Adicionar Estatisticas <label class="nomeAlunos">{{partida['fk_turma_casa']}}</label></a>
+                  <br>
+                  <a id="turma" href="/adicionarEstatisticasVisitante/{{partida['pk_partida']}}/{{ano}}/{{mes}}/{{dia_selecionado}}">Adicionar Estatisticas <label class="nomeAlunos">{{partida['fk_turma_visitante']}}</label></a>
+                <br>
+              </div>
+              {% elif (session['nivel'] == 'Administrador' or session['nivel'] == 'AlunoMonitor') and (partida['fk_turma_casa'] == partida['fk_turma_visitante'])%}
+              {%if partida['grupo'] == "Individual"%}
+              <div class="addEstatisticas">
+                <br>
+                  <a id="turma" href="/adicionarEstatisticasCasa/{{partida['pk_partida']}}/{{ano}}/{{mes}}/{{dia_selecionado}}">Adicionar Estatisticas
+                    {%for membro in membrosEquipes%}
+                    {%if partida['fk_equipe_casa'] == membro['fk_equipe']%}
+                      <label class="nomeAlunos">{{membro['nome_aluno']}}</label>
+                    {%endif%}
+                    {%endfor%}
+                  </a>
+                  <br>
+                  <a id="turma" href="/adicionarEstatisticasVisitante/{{partida['pk_partida']}}/{{ano}}/{{mes}}/{{dia_selecionado}}">Adicionar Estatisticas
+                    {%for membro in membrosEquipes%}
+                    {%if partida['fk_equipe_visitante'] == membro['fk_equipe']%}
+                      <label class="nomeAlunos">{{membro['nome_aluno']}}</label>
+                    {%endif%}
+                  {%endfor%}
+                  </a>
+                <br>
+              </div>
+              {%else%}
+              <div class="addEstatisticas">
+                <br>
+                  <a id="turma" href="/adicionarEstatisticasCasa/{{partida['pk_partida']}}/{{ano}}/{{mes}}/{{dia_selecionado}}">Adicionar Estatisticas
+                      <label class="nomeAlunos">Equipe {{partida['nome_equipe_casa']}}</label>
+                  </a>
+                  <br>
+                  <a id="turma" href="/adicionarEstatisticasVisitante/{{partida['pk_partida']}}/{{ano}}/{{mes}}/{{dia_selecionado}}">Adicionar Estatisticas
+                    <label class="nomeAlunos">Equipe {{partida['nome_equipe_visitante']}}</label>
+                  </a>
+                <br>
+              </div>
+              {%endif%}
+              {% endif %}
+              {%if session['nivel'] == 'Administrador'%}
+              <br>
+                <a href="/removerPartida/{{partida['pk_partida']}}/{{ano}}/{{mes}}/{{dia_selecionado}}" id="RemoverP">Remover Partida</a>
+              {%endif%}
+            </div>
+            {% endfor %}
+        {% else %}
+            <p>Nenhuma partida agendada para este dia.</p>
+        {% endif %}
+      </div>
+    </div>  
+    </div>
+</body>
+<script>
+document.getElementById("mesPicker").addEventListener("change", function() {
+    const [ano, mes] = this.value.split("-");
+    window.location.href = `/calendario/${ano}/${parseInt(mes)}`;
+});
+</script>
+{% extends 'baseflash.html' %}
+</html>

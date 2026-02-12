@@ -1,0 +1,66 @@
+<!-- Flash container (canto superior direito) -->
+<div class="flash-messages" aria-live="polite" aria-atomic="true">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        <div class="flash {{ category }}" role="alert">
+          {{ message }}
+          <button type="button" class="flash-close" onclick="this.parentElement.style.display='none'">×</button>
+        </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+</div>
+
+<style>
+.flash-messages {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 2000;
+  max-width: 320px;
+}
+
+/* estilo base */
+.flash {
+  padding: 12px 14px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  color: #fff;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.18);
+  font-weight: 600;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* suas categorias */
+.flash.sucesso { background: #28a745; } /* verde */
+.flash.erro    { background: #dc3545; } /* vermelho */
+
+/* botão fechar */
+.flash-close {
+  background: transparent;
+  border: none;
+  color: rgb(255, 255, 255) !important;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+}
+</style>
+
+<script>
+/* auto-hide após 4 segundos */
+window.addEventListener('DOMContentLoaded', () => {
+  const flashes = document.querySelectorAll('.flash-messages .flash');
+  flashes.forEach((el, i) => {
+    setTimeout(() => {
+      // animação simples de sumir
+      el.style.transition = 'opacity 0.5s, transform 0.5s';
+      el.style.opacity = 0;
+      el.style.transform = 'translateX(20px)';
+      setTimeout(() => el.remove(), 500);
+    }, 4000 + (i*200));
+  });
+});
+</script>

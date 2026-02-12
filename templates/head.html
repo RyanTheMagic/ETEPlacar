@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Interclasse ETE MFL</title>
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/menu.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/card.css') }}">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&display=swap" />
+  
+</head>
+<body>
+  <!-- Barra superior -->
+  <div class="barraSuperior">
+    <button class="menu-btn" id="menuToggle" aria-label="Abrir menu">☰</button>
+    <strong>Calendário</strong>
+    <span></span>
+  </div>
+
+  <!-- barraLateral-->
+  <aside class="barraLateral" id="barraLateral">
+    <div class="marca">
+      <span class="logo" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+          <path d="M12 12c2.7 0 5-2.3 5-5s-2.3-5-5-5-5 2.3-5 5 2.3 5 5 5zm0 2c-3.3 0-10 1.7-10 5v3h20v-3c0-3.3-6.7-5-10-5z"/>
+        </svg>
+      </span>
+      <a href="/login" class="login-link">Login</a>
+    </div>
+
+    <nav>
+      <a class="nav-link active" href="/">
+        <span class="nav-icon" aria-hidden="true"></span>
+        Calendário
+      </a>
+
+      <a class="nav-link" href="/editar">
+        <span class="nav-icon" aria-hidden="true"></span>
+        Sua turma
+      </a>
+
+      <a class="nav-link" href="#">
+        <span class="nav-icon" aria-hidden="true"></span>
+        Partidas
+      </a> <!--Gerenciar (CRUD da partida)
+              Controlar dados-->
+
+      <a class="nav-link" href="#">
+        <span class="nav-icon" aria-hidden="true"></span>
+        Gerenciar alunos
+      </a>
+
+      <a class="nav-link" href="#">
+        <span class="nav-icon" aria-hidden="true"></span>
+        Gerenciar modalidades
+      </a>
+    </nav>
+
+    <div class="muted">ETE Ministro Fernando Lyra 2025</div>
+  
+  </aside>

@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    {# Aqui você pode adicionar seu CSS para estilizar as mensagens #}
+    <style>
+      .alert { padding: 15px; margin-bottom: 20px; border: 1px solid transparent; border-radius: 4px; }
+      .alert-sucesso { color: #155724; background-color: #d4edda; border-color: #c3e6cb; }
+      .alert-erro { color: #721c24; background-color: #f8d7da; border-color: #f5c6cb; }
+    </style>
+
+  </head>
+  <body>
+
+    <header>
+      <nav>
+        </nav>
+    </header>
+
+    {% include 'flash.html' %}
+
+    <main>
+      {% block content %}{% endblock %}
+    </main>
+    
+    <footer>
+    </footer>
+
+  </body>
+</html>

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{{ url_for('static', filename='css/logo.jpeg') }}">
+    <link rel="stylesheet" href="/static/css/detalhes.css"> 
+    <link rel="stylesheet" href="/static/css/menu.css">
+    <link rel="stylesheet" href="/static/css/card.css">
+    <script src="/static/js/menu.js" defer></script>
+    <title>ETEPlacar - Adicionar Estatísticas</title>
+</head>
+<body>
+    <header>
+    <a href="/static/css/logo.jpeg"></a>
+    <div class="barraSuperior">
+      <button class="menu-btn" id="menuToggle" aria-label="Abrir menu">☰</button>
+      <strong class="nomeEmCima">Gerenciar {{partida['fk_turma_visitante']}}</strong>
+      <span></span>
+    </div>
+  
+    <!-- barraLateral-->
+    <aside class="barraLateral" id="barraLateral">
+        <div class="marca">
+          </svg>
+          </span>
+          <div class="marca">
+            <span class="logo" aria-hidden="true">
+              <!-- ícone -->
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                <path
+                  d="M12 12c2.7 0 5-2.3 5-5s-2.3-5-5-5-5 2.3-5 5 2.3 5 5 5zm0 2c-3.3 0-10 1.7-10 5v3h20v-3c0-3.3-6.7-5-10-5z" />
+              </svg>
+            </span>
+          
+            {% if 'nome' not in session%}
+              <a href="/login" class="login-link">Login</a>
+            {% else %}
+            <div class="usuario-info">
+              <span class="login-link">Olá, {{session['nome']}}</span>
+            </div>
+            {% endif %}
+          </div>
+        
+        </div>
+      
+        <nav>
+        
+          <a class="nav-link {% if request.path == '/calendario/{{ano}}/{{mes}}/{{dia}}' %}active{% endif %}" href="/calendario/{{ano}}/{{mes}}/{{dia}}">
+            <span class="nav-icon" aria-hidden="true"></span>
+            Calendário
+          </a>
+        
+          {% if session['nivel'] == 'AlunoMonitor' or session['nivel'] == 'Administrador'%}
+          <a href="javascript:void(0)" class="nav-link submenu-toggle">
+            <span class="nav-icon" aria-hidden="true"></span>
+            Gerenciamento ▾
+          </a>
+          {%endif%}
+          <div class="submenu">
+            {%if session['nivel'] == 'Administrador'%}
+            <a class="nav-link {% if request.path == '/turma' %}active{% endif %}" href="/turma">
+              Turmas
+            </a>
+            {%endif%}
+            {% if session['nivel'] == 'AlunoMonitor' or session['nivel'] == 'Administrador'%}
+            <a class="nav-link {% if request.path == '/cadastrarAluno' %}active{% endif %}" href="/cadastrarAluno">
+              Alunos
+            </a>
+            <a class="nav-link {% if request.path == '/cadastrarEquipe' %}active{% endif %}" href="/cadastrarEquipe">
+              Equipes
+            </a>
+            {%endif%}
+            {%if session['nivel'] == 'Administrador'%}
+            <a class="nav-link {% if request.path == '/gerenciarModalidades/{{ano}}/{{mes}}/{{dia}}' %}active{% endif %}" href="/gerenciarModalidades/{{ano}}/{{mes}}/{{dia}}">
+              Modalidades
+            </a>
+            <a class="nav-link {% if request.path == '/gerenciarEstatisticas/{{ano}}/{{mes}}/{{dia}}' %}active{% endif %}" href="/gerenciarEstatisticas/{{ano}}/{{mes}}/{{dia}}">
+              Estatísticas
+            </a>
+            <a class="nav-link {% if request.path == '/cadastrarUsuario' %}active{% endif %}" href="/cadastrarUsuario">
+              Usuarios
+            </a>
+            {%endif%}
+          </div>
+          {%if session['nivel'] != 'Administrador' and session['nivel'] != 'AlunoMonitor'%}
+          <a class="nav-link {% if request.path == '/turma' %}active{% endif %}" href="/turma">
+            <span class="nav-icon" aria-hidden="true"></span>
+            Turmas
+          <a class="nav-link {% if request.path == '/cadastrarEquipe' %}active{% endif %}" href="/cadastrarEquipe">
+            <span class="nav-icon" aria-hidden="true"></span>
+            Equipes
+          </a>
+          {%endif%}
+        
+        </nav>
+      
+        <div class="footer">
+          {% if session['nivel'] == 'AlunoMonitor' or session['nivel'] == 'Administrador'%}
+          <a href="/logout" class="logout-link">Sair</a>
+          {%endif%}
+          <div class="muted">ETE Ministro Fernando Lyra 2025</div>
+        </div>
+      
+      </aside>
+  </header>
+    <div class="cont">
+    <div class="caixa">
+      <div class="caixaturmas">
+      <form method="POST" action="/adicionarEstatisticasVisitante/{{ano}}/{{mes}}/{{dia}}">
+          <div class="imgTurmas">
+          {% for turma in turmas %}
+            {% if partida['fk_turma_casa'] == turma['pk_nome_turma'] %}
+              <label><img src="{{turma['icone_url']}}"/></label>
+            {% endif %}
+          {% endfor %}
+          
+          {% for turma in turmas %}
+            {% if partida['fk_turma_visitante'] == turma['pk_nome_turma']%}
+              <label><img src="{{turma['icone_url']}}"/></label>
+            {% endif %}
+          {% endfor %}
+          
+          </div>
+          <br>
+          <h1>{{partida['fk_esporte']}} {{partida['fk_descricao']}}</h1>
+          {%if partida['grupo'] == 'Individual'%}
+            {%for membro in membrosEquipes%}
+              {%if partida['fk_equipe_casa'] == membro['fk_equipe']%}
+                <label>{{membro['nome_aluno']}} x
+              {%endif%}    
+              {%if partida['fk_equipe_visitante'] == membro['fk_equipe']%}
+                <label class="turmaSelecionada">{{membro['nome_aluno']}}</label></label>
+              {%endif%}
+            {%endfor%}
+            {%else%}
+              <label>{{partida['fk_turma_casa']}} - Equipe {{partida['nome_equipe_casa']}} x <label class="turmaSelecionada">Equipe {{partida['nome_equipe_visitante']}} - {{partida['fk_turma_visitante']}}</label> </label>
+          {%endif%}
+          </div>
+          {%for estatistica in estatisticas%}
+          <label>
+            <h1>{{estatistica['fk_nome_estatistica']}}</h1>
+            <input type="hidden" name="{{estatistica['fk_nome_estatistica']}}" id="{{estatistica['fk_nome_estatistica']}}" value="0"/>
+          </label>
+          <div class="butEstatistica">
+            <button type="button" onclick="removerEstat('{{estatistica.fk_nome_estatistica}}')">-</button>
+            <div class="pontosE">
+              <label id="exibirQuant{{estatistica['fk_nome_estatistica']}}">0</label>
+            </div>
+            <button type="button" onclick="adicionarEstat('{{ estatistica.fk_nome_estatistica }}')">+</button>
+          </div>
+            {%endfor%}
+              <input hidden name="id" value="{{partida['pk_partida']}}"/>
+            <br>
+            <button class="enviar" type="submit">Enviar</button>
+        </div>
+        </form>
+    </div>
+    </div>
+</body>
+<script>
+  function adicionarEstat(estat){
+    let estatistica = document.getElementById(estat)
+    let exibirQuant = document.getElementById(`exibirQuant${estat}`)
+    let valor = parseInt(estatistica.value)
+    valor += 1
+    estatistica.value = valor
+    exibirQuant.textContent = valor
+  }
+  function removerEstat(estat){
+    let estatistica = document.getElementById(estat)
+    let exibirQuant = document.getElementById(`exibirQuant${estat}`)
+    let valor = parseInt(estatistica.value)
+    valor -= 1
+    if (valor < 0){
+      valor = 0
+    }
+    estatistica.value = valor
+    exibirQuant.textContent = valor
+  }
+
+</script>
+{% extends 'baseflash.html' %}
+</html>

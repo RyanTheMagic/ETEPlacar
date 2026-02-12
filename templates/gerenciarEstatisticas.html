@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="icon" href="{{ url_for('static', filename='css/logo.jpeg') }}">
+   <link rel="stylesheet" href="/static/css/gerenciamento.css">
+   <link rel="stylesheet" href="/static/css/menu.css">
+   <link rel="stylesheet" href="/static/css/card.css">
+   <script src="/static/js/menu.js" defer></script>
+   <title>ETEPlacar - Gerenciar Modalidades</title>
+</head>
+<body>
+    <header>
+     <link rel="stylesheet" href="/static/css/menu.css">
+     <div class="barraSuperior">
+        <button class="menu-btn" id="menuToggle" aria-label="Abrir menu">☰</button>
+        <strong class="nomeEmCima">Gerenciar Modalidades</strong>
+        <span></span>
+      </div>
+    
+      <!-- barraLateral-->
+      <aside class="barraLateral" id="barraLateral">
+        <div class="marca">
+          </svg>
+          </span>
+          <div class="marca">
+            <span class="logo" aria-hidden="true">
+              <!-- ícone -->
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                <path
+                  d="M12 12c2.7 0 5-2.3 5-5s-2.3-5-5-5-5 2.3-5 5 2.3 5 5 5zm0 2c-3.3 0-10 1.7-10 5v3h20v-3c0-3.3-6.7-5-10-5z" />
+              </svg>
+            </span>
+          
+            {% if 'nome' not in session%}
+              <a href="/login" class="login-link">Login</a>
+            {% else %}
+            <div class="usuario-info">
+              <span class="login-link">Olá, {{session['nome']}}</span>
+            </div>
+            {% endif %}
+          </div>
+        
+        </div>
+      
+        <nav>
+        
+          <a class="nav-link {% if request.path == '/calendario/{{ano}}/{{mes}}/{{dia}}' %}active{% endif %}" href="/calendario/{{ano}}/{{mes}}/{{dia}}">
+            <span class="nav-icon" aria-hidden="true"></span>
+            Calendário
+          </a>
+        
+          {% if session['nivel'] == 'AlunoMonitor' or session['nivel'] == 'Administrador'%}
+          <a href="javascript:void(0)" class="nav-link submenu-toggle">
+            <span class="nav-icon" aria-hidden="true"></span>
+            Gerenciamento ▾
+          </a>
+          {%endif%}
+          <div class="submenu">
+            {%if session['nivel'] == 'Administrador'%}
+            <a class="nav-link {% if request.path == '/turma' %}active{% endif %}" href="/turma">
+              Turmas
+            </a>
+            {%endif%}
+            {% if session['nivel'] == 'AlunoMonitor' or session['nivel'] == 'Administrador'%}
+            <a class="nav-link {% if request.path == '/cadastrarAluno' %}active{% endif %}" href="/cadastrarAluno">
+              Alunos
+            </a>
+            <a class="nav-link {% if request.path == '/cadastrarEquipe' %}active{% endif %}" href="/cadastrarEquipe">
+              Equipes
+            </a>
+            {%endif%}
+            {%if session['nivel'] == 'Administrador'%}
+            <a class="nav-link {% if request.path == '/gerenciarModalidades/{{ano}}/{{mes}}/{{dia}}' %}active{% endif %}" href="/gerenciarModalidades/{{ano}}/{{mes}}/{{dia}}">
+              Modalidades
+            </a>
+            <a class="nav-link {% if request.path == '/gerenciarEstatisticas/{{ano}}/{{mes}}/{{dia}}' %}active{% endif %}" href="/gerenciarEstatisticas/{{ano}}/{{mes}}/{{dia}}">
+              Estatísticas
+            </a>
+            <a class="nav-link {% if request.path == '/cadastrarUsuario' %}active{% endif %}" href="/cadastrarUsuario">
+              Usuarios
+            </a>
+            {%endif%}
+          </div>
+          {%if session['nivel'] != 'Administrador' and session['nivel'] != 'AlunoMonitor'%}
+          <a class="nav-link {% if request.path == '/turma' %}active{% endif %}" href="/turma">
+            <span class="nav-icon" aria-hidden="true"></span>
+            Turmas
+          <a class="nav-link {% if request.path == '/cadastrarEquipe' %}active{% endif %}" href="/cadastrarEquipe">
+            <span class="nav-icon" aria-hidden="true"></span>
+            Equipes
+          </a>
+          {%endif%}
+        
+        </nav>
+      
+        <div class="footer">
+          {% if session['nivel'] == 'AlunoMonitor' or session['nivel'] == 'Administrador'%}
+          <a href="/logout" class="logout-link">Sair</a>
+          {%endif%}
+          <div class="muted">ETE Ministro Fernando Lyra 2025</div>
+        </div>
+      
+      </aside>
+  </header>
+    <div class="caixa">
+    <div class="divisao">
+        <h3>Criar Estatistica</h3>
+        <form action="/criarEstatistica/{{ano}}/{{mes}}/{{dia}}" method="POST">
+            <label>Nome da Estatistica: </label>
+            <input name="estatistica" required/>
+            <button type="submit">Criar Estatistica</button>
+        </form>
+        <h3>Remover Estatistica</h3>
+        <form action="/removerEstatistica/{{ano}}/{{mes}}/{{dia}}" method="POST">
+            <select name="estatistica" id="estatistica-Select">
+                {%for estatistica in estatisticas%}
+                <option value="{{estatistica['pk_nome_estatistica']}}">{{estatistica['pk_nome_estatistica']}}</option>
+                {%endfor%}
+            </select>
+            <button onclick="confirmarRemoverEstatistica(event)" type="submit">Remover Estatística</button>
+        </form>
+    </div>
+    <div class="divisao">  
+        <h3>Cadastrar Estatisticas</h3>
+        <form action="/cadastrarEstatisticasParaModalidade/{{ano}}/{{mes}}/{{dia}}" method="POST">
+            <label>Esporte: </label>
+            <select name="esporte">
+                {%for esporte in esportes%}
+                <option value="{{esporte['pk_esporte']}}">{{esporte['pk_esporte']}}</option>
+                {%endfor%}
+            </select><br>
+            <label>Estatistica:</label>
+            <select name="estatistica">
+                {%for estatistica in estatisticas%}
+                <option value="{{estatistica['pk_nome_estatistica']}}">{{estatistica['pk_nome_estatistica']}}</option>
+                {%endfor%}
+            </select><br>
+            <button type="submit">Cadastrar Estatisticas</button>
+        </form>
+        <h3>Remover Estatisticas de uma Modalidade</h3>
+        <form action="/removerEstatisticasParaModalidade/{{ano}}/{{mes}}/{{dia}}" method="POST">
+            <label>Esporte: </label>
+            <select name="esporte" id="esporteRemover">
+                <option id="selecionarEsporte" value="">--Selecione um esporte</option>
+                {%set lista = []%}
+                {%for esporte in esportesComEst%}
+                    {%if esporte['fk_esporte'] not in lista%}
+                        {%set _ = lista.append(esporte['fk_esporte'])%}
+                        <option value="{{esporte['fk_esporte']}}">{{esporte['fk_esporte']}}</option>
+                    {%endif%}
+                {%endfor%}
+            </select><br>
+            <label>Estatistica:</label>
+            <select name="estatistica" id="estatisticaRemover">
+                <option value="">--Selecione um esporte primeiro--</option>
+            </select><br>
+            <button onclick="confirmarRemoverEstatisticaModalidade(event)" type="submit">Remover Estatística</button>
+        </form>
+    </div>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+    const esporteSelect = document.getElementById('esporteRemover');
+    const estatisticaSelect = document.getElementById('estatisticaRemover');
+    const selecionarEsporte = document.getElementById('selecionarEsporte');
+
+    esporteSelect.addEventListener('change', function() {
+        const esporteSelecionado = this.value;
+
+        // Se nenhum esporte for selecionado, limpa a lista de estatísticas
+        if (!esporteSelecionado) {
+            estatisticaSelect.innerHTML = '<option value="">--Selecione um esporte primeiro--</option>';
+            return; // Sai da função
+        }
+
+        fetch(`/api/estatisticasPorModalidade/${esporteSelecionado}`)
+            .then(response => {
+                if (!response.ok) throw new Error('Falha na resposta do servidor');
+                return response.json();
+            })
+            .then(data => {
+                console.log(data);
+                if (selecionarEsporte) {
+                    selecionarEsporte.remove();
+                }
+                estatisticaSelect.innerHTML = '';
+
+                data.forEach(estatisticaFiltras => {
+                    const option = document.createElement('option');
+                    option.value = estatisticaFiltras['fk_nome_estatistica'];
+                    option.textContent = estatisticaFiltras['fk_nome_estatistica'];
+                    estatisticaSelect.appendChild(option);
+                });
+            })
+            .catch(error => {
+                console.error('Erro ao buscar estatísticas', error);
+                estatisticaSelect.innerHTML = '<option value="">Erro ao carregar estatísticas</option>';
+            });
+    });
+});
+
+    function confirmarRemoverEstatistica(event){
+        const estatisticaSelecionada = document.getElementById('estatistica-Select').value;
+        const mensagem = `Todas as partidas e modalidades relacionadas com ${estatisticaSelecionada} serão desassociadas! Tem certeza que deseja remover ${estatisticaSelecionada}?`
+        if (!window.confirm(mensagem)) {
+            event.preventDefault(); 
+        }
+    }
+
+    function confirmarRemoverEstatisticaModalidade(event){
+        const modalidadeSelecionada = document.getElementById('esporteRemover').value
+        const estatisticaSelecionada = document.getElementById('estatisticaRemover').value;
+        const mensagem = `Todas as partidas juntamente com a modalidade ${modalidadeSelecionada} serão desassociadas da estatistica ${estatisticaSelecionada}! Tem certeza que deseja remover ${estatisticaSelecionada}?`
+        if (!window.confirm(mensagem)) {
+            event.preventDefault(); 
+        }
+    }
+    </script>
+    {% extends 'baseflash.html' %}
+    </div>  
+</body>
+</html>

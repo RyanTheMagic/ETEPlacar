@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{{ url_for('static', filename='css/logo.jpeg') }}">
+    <link rel="stylesheet" href="/static/css/criarP.css">
+    <link rel="stylesheet" href="/static/css/menu.css">
+    <link rel="stylesheet" href="/static/css/card.css">
+    <script src="/static/js/menu.js" defer></script>
+    <title>ETEPlacar - Criar Partida</title>
+</head>
+<body>
+    <header>
+    <a href="/static/css/logo.jpeg"></a>
+    <button class="menu-toggle" id="menu-toggle">☰</button>
+    <div class="barraSuperior">
+      <button class="menu-btn" id="menuToggle" aria-label="Abrir menu">☰</button>
+      <strong class="nomeEmCima">Criar Partida</strong>
+      <span></span>
+    </div>
+  
+    <!-- barraLateral-->
+    <aside class="barraLateral" id="barraLateral">
+        <div class="marca">
+          </svg>
+          </span>
+          <div class="marca">
+            <span class="logo" aria-hidden="true">
+              <!-- ícone -->
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                <path
+                  d="M12 12c2.7 0 5-2.3 5-5s-2.3-5-5-5-5 2.3-5 5 2.3 5 5 5zm0 2c-3.3 0-10 1.7-10 5v3h20v-3c0-3.3-6.7-5-10-5z" />
+              </svg>
+            </span>
+          
+            {% if 'nome' not in session%}
+              <a href="/login" class="login-link">Login</a>
+            {% else %}
+            <div class="usuario-info">
+              <span class="login-link">Olá, {{session['nome']}}</span>
+            </div>
+            {% endif %}
+          </div>
+        
+        </div>
+      
+        <nav>
+        
+          <a class="nav-link {% if request.path == '/calendario/{{ano}}/{{mes}}/{{dia_selecionado}}' %}active{% endif %}" href="/calendario/{{ano}}/{{mes}}/{{dia_selecionado}}">
+            <span class="nav-icon" aria-hidden="true"></span>
+            Calendário
+          </a>
+        
+          {% if session['nivel'] == 'AlunoMonitor' or session['nivel'] == 'Administrador'%}
+          <a href="javascript:void(0)" class="nav-link submenu-toggle">
+            <span class="nav-icon" aria-hidden="true"></span>
+            Gerenciamento ▾
+          </a>
+          {%endif%}
+          <div class="submenu">
+            {%if session['nivel'] == 'Administrador'%}
+            <a class="nav-link {% if request.path == '/turma' %}active{% endif %}" href="/turma">
+              Turmas
+            </a>
+            {%endif%}
+            {% if session['nivel'] == 'AlunoMonitor' or session['nivel'] == 'Administrador'%}
+            <a class="nav-link {% if request.path == '/cadastrarAluno' %}active{% endif %}" href="/cadastrarAluno">
+              Alunos
+            </a>
+            <a class="nav-link {% if request.path == '/cadastrarEquipe' %}active{% endif %}" href="/cadastrarEquipe">
+              Equipes
+            </a>
+            {%endif%}
+            {%if session['nivel'] == 'Administrador'%}
+            <a class="nav-link {% if request.path == '/gerenciarModalidades/{{ano}}/{{mes}}/{{dia_selecionado}}' %}active{% endif %}" href="/gerenciarModalidades/{{ano}}/{{mes}}/{{dia_selecionado}}">
+              Modalidades
+            </a>
+            <a class="nav-link {% if request.path == '/gerenciarEstatisticas/{{ano}}/{{mes}}/{{dia_selecionado}}' %}active{% endif %}" href="/gerenciarEstatisticas/{{ano}}/{{mes}}/{{dia_selecionado}}">
+              Estatísticas
+            </a>
+            <a class="nav-link {% if request.path == '/cadastrarUsuario' %}active{% endif %}" href="/cadastrarUsuario">
+              Usuarios
+            </a>
+            {%endif%}
+          </div>
+          {%if session['nivel'] != 'Administrador' and session['nivel'] != 'AlunoMonitor'%}
+          <a class="nav-link {% if request.path == '/turma' %}active{% endif %}" href="/turma">
+            <span class="nav-icon" aria-hidden="true"></span>
+            Turmas
+          <a class="nav-link {% if request.path == '/cadastrarEquipe' %}active{% endif %}" href="/cadastrarEquipe">
+            <span class="nav-icon" aria-hidden="true"></span>
+            Equipes
+          </a>
+          {%endif%}
+        
+        </nav>
+      
+        <div class="footer">
+          {% if session['nivel'] == 'AlunoMonitor' or session['nivel'] == 'Administrador'%}
+          <a href="/logout" class="logout-link">Sair</a>
+          {%endif%}
+          <div class="muted">ETE Ministro Fernando Lyra 2025</div>
+        </div>
+      
+      </aside>
+  </header>
+    <div class="caixa">
+    <form method="POST" action="/criarPartidas">
+        <label for="minha-lista">Escolha uma opção:</label>
+        <br>
+        
+        <h3>MODALIDADE</h3>
+        <select name="Modalidade">
+        {%for modalidade in modalidades%}
+          <option value="{{modalidade['pk_esporte']}}">{{modalidade['pk_esporte']}}</option> 
+        {%endfor%}
+        </select>
+        
+        <h3>DESCRIÇÃO</h3>
+        <br>
+        <input type="radio" value="Masculino" name="descricao" required/>
+        <label>Masculino</label>
+        <input type="radio" value="Feminino" name="descricao" required/>
+        <label>Feminino</label>
+        <input type="radio" value="Misto" name="descricao" required/>
+        <label>Misto</label>
+        <br>
+        
+        <h3>EQUIPE CASA</h3>
+        <select name="equipeCasa">
+          {%for equipe in equipes%}
+            <option value="{{equipe['pk_equipe']}}">{{equipe['fk_esporte']}} - Equipe {{equipe['nome_equipe']}} do {{equipe['fk_nome_turma']}}</option>
+          {%endfor%}
+        </select>
+        <h3>EQUIPE VISITANTE</h3>
+        <select name="equipeVisitante">
+          {%for equipe in equipes%}
+            <option value="{{equipe['pk_equipe']}}">{{equipe['fk_esporte']}} - Equipe {{equipe['nome_equipe']}} do {{equipe['fk_nome_turma']}}</option>
+          {%endfor%}
+        </select>
+        <br>
+        <label>Dia da Partida</label>
+        <input type="date" name="dataPartida" required/>
+        <br>
+        <button type="submit">Enviar</button>
+        
+    </form>
+    {% extends 'baseflash.html' %}
+    </div>
+</body>
+</html>
