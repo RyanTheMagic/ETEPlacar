@@ -5,7 +5,7 @@ LINK REPOSITORIO DRIVE:
 https://drive.google.com/drive/folders/1wL3VAQlEVKay85i8lU3AljZ1bYzg_fex?usp=sharing
 
 Como o TCC ocorreu dia 08 de outubro de 2025, os arquivos mais atualizados são os que chegam próximos dessa data.
-TCC - Interclasse v51.zip (Site)
+TCC - Interclasse v51.zip (Sistema)
 eteplacardefinitivov2.sql (Banco de dados Local)
 
 Passos para mexer
