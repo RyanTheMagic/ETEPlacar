@@ -1,0 +1,5 @@
+from .removerEstatisticas import removerEstatisticas
+from .removerEstatisticasDaModalidade import removerEstatisticasDaModalidade
+from .removerModalidade import removerModalidade
+from .removerPartidasPorModalidade import removerPartidasPorModalidade
+from .removerPartidaPorId import removerPartidasPorId

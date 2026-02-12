@@ -1,0 +1,6 @@
+from .adicionarEstatisticasCasa import adicionarEstatisticasCasa
+from .adicionarEstatisticasVisitante import adicionarEstatisticasVisitante
+from .adicionarEstatCasaCalendario import adicionarEstatCasaCalendario
+from .adicionarEstatVisitanteCalendario import adicionarEstatVisitanteCalendario
+from .subirCargo import subirCargo
+from .trocarSenha import trocarSenha
