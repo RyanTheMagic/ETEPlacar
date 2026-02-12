@@ -1,0 +1,23 @@
+Passos para mexer
+1 - apagar a pasta .venv
+2 - executar os comandos no terminal do VSCODE na seguinte ordem:
+
+py -3 -m venv .venv
+
+.venv/Scripts/activate
+
+pip install flask
+
+pip install mysql-connector-python==9.0.0
+
+3 - Após isso, reabrir o vsCode por garantia
+
+4 - Para iniciar a aplicação, digite no terminal:
+flask --app main run --debug
+
+OBS: Se na linha final apresentar um erro como:
+sqlalchemy.exc.OperationalError: (pymysql.err.OperationalError) (1045, "Access denied for user 'root'@'localhost' (using password: YES)")
+
+a senha está incorreta.
+senha escola: aluno
+senha padrao: root
