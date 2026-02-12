@@ -1,0 +1,150 @@
+:root {
+  --cor-primaria: #122f4a;
+  --cor-secundaria: #9cc7ec;
+  --cor-texto: #ebf0f7;
+  --cor-card: #ebf0f7;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Fundo da página */
+body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--cor-primaria);
+  color: #fff;
+}
+
+/* Container central */
+.login-container {
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+}
+
+/* Box do login */
+.login-box {
+  background-color: var(--cor-primaria);
+  backdrop-filter: blur(15px);
+  padding: 40px 30px;
+  border-radius: 15px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.388);
+  text-align: center;
+}
+
+/* Avatar */
+.avatar i {
+  font-size: 64px;
+  color: var(--cor-texto);
+  margin-bottom: 20px;
+}
+
+/* Título */
+.login-box h1 {
+  margin-bottom: 30px;
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--cor-texto);
+}
+
+/* Inputs */
+.input-box {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.input-box input {
+  width: 100%;
+  padding: 12px 45px 12px 15px;
+  border-radius: 30px;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  color: var(--cor-primaria);
+}
+
+.input-box i {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--cor-primaria);
+  font-size: 20px;
+}
+
+
+
+/* Opções */
+.options {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  margin-bottom: 25px;
+}
+
+.options a {
+  text-decoration: none;
+  color: var(--cor-secundaria);
+  transition: 0.3s;
+}
+
+.options a:hover {
+  text-decoration: underline;
+}
+
+/* Botão */
+.login-btn {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 30px;
+  background-color: var(--cor-secundaria);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.login-btn:hover {
+  background-color: rgba(34, 211, 238, 0.12);
+}
+
+/* Link de registro */
+.register-link {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #ebf0f7;
+}
+
+.register-link a {
+  color: var(--cor-secundaria);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.register-link a:hover {
+  text-decoration: underline;
+}
+
+/* Responsividade */
+@media (max-width: 450px) {
+  .login-box {
+    padding: 30px 20px;
+  }
+
+  .avatar i {
+    font-size: 50px;
+  }
+
+  .login-box h1 {
+    font-size: 24px;
+  }
+}

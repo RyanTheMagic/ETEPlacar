@@ -1,0 +1,230 @@
+/* static/css/calendario.css */
+
+/* --- Configurações Gerais e Variáveis de Cor --- */
+:root {
+    --cor-fundo: #f4f5f7;
+    --cor-container: #ffffff;
+    --cor-primaria: #2196f3;
+    --cor-texto-principal: #333333;
+    --cor-texto-secundario: #6c757d;
+    --cor-dia-outro-mes: #ff0000;
+    --cor-hoje: #e9ecef;
+}
+
+.calendario-wrapper {
+    background-color: var(--cor-container);
+    padding: 15px;
+    border-radius: 12px;
+    width: 340px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e0e0e0;
+    margin: 72px auto 10px auto;
+}
+
+.calendario-wrapper button {
+    background: none;
+    border: none;
+    font-size: 20px;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 1.25em;
+    font-weight: 600;
+    color: var(--cor-texto-principal);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header h1 {
+    font-size: 1.25em;
+    font-weight: 600;
+    margin: 0;
+    flex-grow: 1;
+    color: var(--cor-texto-principal);
+}
+
+.dias-semana, .dias-mes {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+}
+
+.dias-semana div {
+    font-weight: 500;
+    color: var(--cor-texto-secundario);
+    text-align: center;
+    font-size: 0.9em;
+    padding-bottom: 8px;
+}
+
+.dia {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    width: 40px;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+    font-weight: 500;
+    color: var(--cor-texto-principal);
+    position: relative;
+}
+
+.dias-mes a.dia {
+    text-decoration: none;
+    color: inherit;
+}
+
+.dias-mes a.dia.outro-mes {
+    color: rgb(168, 168, 168);
+    cursor: default;
+}
+
+.dia:not(.outro-mes):hover {
+    background-color: #f1f1f1;
+}
+
+.dia.hoje {
+    background-color: var(--cor-hoje);
+    color: var(--cor-texto-principal);
+    font-weight: 600;
+}
+
+.dia.selecionado {
+    background-color: var(--cor-primaria);
+    color: white;
+    font-weight: 600;
+}
+
+.dia.selecionado span {
+    color: white;
+}
+
+.dia.com-evento::after {
+    content: '';
+    display: block;
+    width: 6px;
+    height: 6px;
+    background-color: var(--cor-primaria);
+    border-radius: 50%;
+    position: absolute;
+    bottom: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.dia.selecionado::after, .dia.hoje.selecionado::after {
+    display: none;
+}
+
+.nav-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--cor-primaria);
+    font-size: 1.5em;
+    font-weight: 700;
+    padding: 0 10px;
+    transition: color 0.2s;
+    outline: none;
+}
+
+.nav-btn:hover {
+    color: #1a71c4; /* Tom mais escuro */
+}
+
+.Filtros {
+    background-color: #ebf0f7;
+    display: flex;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    align-items: center;
+    padding: 20px;
+    margin-bottom: 10px;
+}
+
+.Filtros button, select {
+    padding: 5px;
+    height: 30px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    font-weight: bold;
+    color: #000;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.Filtros button {
+    margin-top: 10px;
+    box-shadow: 0 2px 3px #000;
+    background-color: white;
+}
+
+.Filtros select {
+    margin: 8px 0px 0px 0px;
+    width: 130px;
+}
+
+.Filtros label {
+    font-size: 24px;
+    color: #000;
+}
+
+#mesPicker {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: none;
+  background: none;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+}
+
+/* Esconde o texto interno */
+#mesPicker::-webkit-datetime-edit {
+  display: none;
+}
+#mesPicker::-webkit-inner-spin-button {
+  display: none;
+}
+#mesPicker::-webkit-clear-button {
+  display: none;
+  margin: 0px;
+  margin-right: 10px;
+}
+
+#mesPicker::-webkit-calendar-picker-indicator {
+  display: block;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  margin: 0px;
+}
+
+
+@media (min-width: 768px) {
+    .calendario-wrapper {
+        padding: 15px;
+        margin-top: 45px;
+    }
+    .calendario-container {
+        display: block;
+    }
+    .Filtros {
+        width: auto;
+    }
+    .Filtros button {
+        margin-left: 20px;
+        margin-top: 0px;
+    }
+    .Filtros br {
+        display: none;
+    }
+
+}

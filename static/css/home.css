@@ -1,0 +1,166 @@
+body{
+  font-family: "Poppins", sans-serif;
+  background-color: #e4e4e4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+img {
+  border-radius: 100px;
+}
+
+a {
+  color: #000;
+  text-decoration: none;
+}
+
+h1 {
+  color: #ffffff;
+}
+
+p {
+  display: flex;
+  color: #333333;
+  font-size: 24px;
+  margin: 0px 10px 0px 10px;
+}
+
+.nomesT {
+  color: #ffffff;
+  font-size: 16px;
+  margin: 0px 10px 0px 10px;
+  text-align: center;
+  margin: auto;
+  margin-bottom: 8px;
+}
+
+.nomesT label {
+  margin: auto;
+  margin-bottom: 10px;
+}
+
+.nomesT text {
+  margin: 0px 105px 0px 105px;
+  align-items: center;
+  justify-content: center;
+}
+
+.caixa {
+  color: #ebf0f7;
+  width: 600px;
+  background-color: #ebf0f7 ;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  overflow-y: auto; 
+  margin: 30px auto 0px auto;
+}
+
+.pontos_turma_partidas {
+  text-decoration: solid;
+  font-size: 56px;
+  font-weight: bold;
+  align-items: center;
+  justify-content: center;
+  border: 2px white;
+  
+}
+
+.caixa img {
+  width: 100px;
+}
+
+.partidas {
+  background-color: #122f4a;
+  border-radius: 20px;
+  padding: 20px 0px 20px 0px;
+  margin-bottom: 12px;
+}
+
+.partidas h1 {
+  display: flex;
+  justify-content: center;
+  background-color: #1e4a74;
+  margin: 0px 70px 10px 70px;
+  box-shadow: 0 2px 3px #000;
+  border-radius: 5px;
+  text-shadow: 2px 2px #000;
+}
+
+.partidas img {
+  margin: 0px auto 0px auto;
+}
+
+.estatPrincipal {
+  background-color: #122f4a !important ;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.nomeAlunos{
+  font-weight: bold;
+}
+
+.caixaimg {
+  display: flex;
+  align-items: center;
+}
+
+.addEstatisticas {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+
+#turma {
+  color: white;
+  background-color: #1e4a74;
+  margin-top: 15px;
+  border-radius: 5px;
+  padding: 4px;
+  box-shadow: 0 2px 3px #000;
+
+}
+
+#RemoverP {
+  color: #ffffff;
+  background-color: rgb(238, 57, 57);
+  padding: 4px;
+  border-radius: 5px;
+  margin-bottom: 151px;
+  box-shadow: 0 2px 3px #000;
+  font-weight: bold;
+}
+
+@media (max-width: 912px) {
+
+  .caixa {  
+    width: auto;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    overflow-y: auto;
+    margin: auto;
+    padding: 0px;
+  }
+  .caixa img {
+  width: 80px;
+  }
+  .partidas {
+    margin: 5px;
+    margin-top: 20px;
+  }
+  .partidas a {
+    font-size: 20px;
+  }
+  .nomesT text {
+  margin: 0px auto 0px auto;
+  }
+  .addEstatisticas {
+  gap: 25px;
+  }
+}
