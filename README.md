@@ -1,0 +1,33 @@
+!!AVISO
+Infelizmente na época, eu não sabia mexer no github, e por isso usei o Drive como repositório, cada modificação que eu fazia eu mudava a versão:
+
+LINK REPOSITORIO DRIVE:
+https://drive.google.com/drive/folders/1wL3VAQlEVKay85i8lU3AljZ1bYzg_fex?usp=sharing
+
+Como o TCC ocorreu dia 08 de outubro de 2025, os arquivos mais atualizados são os que chegam próximos dessa data.
+TCC - Interclasse v51.zip (Site)
+eteplacardefinitivov2.sql (Banco de dados Local)
+
+Passos para mexer
+1 - apagar a pasta .venv
+2 - executar os comandos no terminal do VSCODE na seguinte ordem:
+
+py -3 -m venv .venv
+
+.venv/Scripts/activate
+
+pip install flask
+
+pip install mysql-connector-python==9.0.0
+
+3 - Após isso, reabrir o vsCode por garantia
+
+4 - Para iniciar a aplicação, digite no terminal:
+flask --app main run --debug
+
+OBS: Se na linha final apresentar um erro como:
+sqlalchemy.exc.OperationalError: (pymysql.err.OperationalError) (1045, "Access denied for user 'root'@'localhost' (using password: YES)")
+
+a senha está incorreta.
+senha escola: aluno
+senha padrao: root
