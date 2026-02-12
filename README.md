@@ -9,7 +9,7 @@ TCC - Interclasse v51.zip (Site)
 eteplacardefinitivov2.sql (Banco de dados Local)
 
 Passos para mexer
-1 - apagar a pasta .venv
+1 - apagar a pasta .venv (Se existir)
 2 - executar os comandos no terminal do VSCODE na seguinte ordem:
 
 py -3 -m venv .venv
